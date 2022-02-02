@@ -126,20 +126,19 @@ class App extends Component {
   }
 
   onSearchInput = event => {
-    const {detailsList} = this.state
-    const {value} = event.target
-    const filterData = detailsList.filter(eachItem =>
-      eachItem.title.toLowerCase().includes(value),
-    )
+    const inValue = event.target.value
     this.setState({
-      searchValue: value,
-      detailsList: filterData,
+      searchValue: inValue,
     })
   }
 
   render() {
     const {searchValue, detailsList} = this.state
-    const lenData = detailsList.length
+    const filterData = detailsList.filter(eachItem =>
+      eachItem.title.toLowerCase().includes(searchValue),
+    )
+
+    const lenData = filterData.length
     const res = lenData === 0
     return (
       <div className="bg-layer">
@@ -173,7 +172,7 @@ class App extends Component {
             <p className="er-msg">There is no history to show</p>
           ) : (
             <ul className="site-list">
-              {detailsList.map(eachLog => (
+              {filterData.map(eachLog => (
                 <HistoryItem
                   key={eachLog.id}
                   eventFunc={this.onDeleteBtn}
